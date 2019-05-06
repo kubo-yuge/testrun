@@ -1,0 +1,16 @@
+makehtml-k.rについて
+
+
+（１）makehtml.rを書き換えて，makehtml-k.rとした。
+
+（２）変数"imageh"を用意した。
+150行目で変数"image"に代入された文字列の".jpg"を"json.html"に置換するため，
+151行目に次の命令を入れる。
+  imageh=gsub(".jpg","json.html",image)
+
+（３）156行目（オリジナルでは，155行目）の"image"を"imageh"に変更した。
+
+これにより，作成されるindex.htmlファイルにおいて，画像を表示した部分のリンクが，
+KeTCindyJSで作成したhtmlへのリンクになる。
+
+(2019/5/2)

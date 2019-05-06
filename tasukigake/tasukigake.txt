@@ -1,0 +1,38 @@
+Ketinit();
+
+dt1=[2,"",1,"",5];
+dt2=[5,"",3,"",6];
+dt3=[10,"",3,"",11];
+
+xLst=[7,8,7,8,7];
+yLst=[6,6,6];
+rmvL=[];
+
+Tabledatalight("",xLst,yLst,rmvL,["nodisp"]);
+Tlistplot("1",["c0r2","c5r2"]);
+
+tmp1=Findcell("c1r0","c1r1")_1;
+tmp2=Findcell("c2r1","c2r2")_1;
+tmp3=Findcell("c1r1","c1r2")_1;
+tmp4=Findcell("c2r0","c2r1")_1;
+
+Listplot("2",[tmp1,tmp2]);
+Listplot("3",[tmp3,tmp4]);
+
+Putcellexpr("c3r0","c4r1","c","\longrightarrow");
+Putcellexpr("c3r1","c4r2","c","\longrightarrow");
+
+Putrowexpr(1,"r2",dt1);
+Putrowexpr(2,"r2",dt2);
+Putrowexpr(3,"r2",dt3);
+Windispg();
+
+// dt1,dt2,dt3：たすきがけに現れる値のリスト
+// xLst,yLst,rmvL：セルの幅，高さ，除去線のリストを指定して作表
+// Tabledataは，2019/4/28の仕様変更を反映
+// オプションの"nodisp"は，Cindy画面にもTeXにも非表示
+// Tlistplotで横線を引く（列行の文字列で位置を指示）
+// クロス線を引くため，Findcellの情報から座標を取得
+// Putrowexprで各行にdt1,dt2,dt3 をおく
+// Putrowexprの "r2"は微小単位の2倍だけ空けて右置きで置く意味である
+
