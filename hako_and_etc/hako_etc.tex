@@ -16,76 +16,53 @@
 \begin{layer}{80}{25}
 \end{layer}
 
-\hako[50]{8}{2}{\huge{$\dfrac{Yg}{2}$}a1y}aaa
+\hako[50]{10}{2}{\Huge{$\dfrac{Yg}{2}$}a1y}aaa
 \rule[0pt]{25mm}{.1pt}基準線\\
 
 
 \vspace{15mm}
 以下では，中の式の高さに関わらず指定した高さの枠を用意するコマンドを定義。\\
 
-%% \Hako の定義
-\newcommand{\Hako}[5][c]{
- \newlength{\Hakolen}\setlength{\Hakolen}{#3}\addtolength{\Hakolen}{#4}
- \fboxsep=0pt \framebox[#2][#1]
- {
-  \rule[-#4]{0mm}{\Hakolen}
-  \smash{#5}$\mathstrut$% \mathstrutを最低値とする
- }
-}
-
-\verb|\Hako|を定義：(箱の高さは，上と下に拡げた高さの和)\\
-\verb|\Hako[横配置]{上に広く}{下に広く}{文字列}|\\
-\verb|\Hako[c]{50mm}{8mm}{2mm}{文字列}|\\[-2mm]
-
-\begin{layer}{80}{15}
-\end{layer}
-
-\Hako[c]{50mm}{8mm}{2mm}{\huge{$\dfrac{Yg}{2}$}a2y}aaa
-\rule[0pt]{25mm}{.1pt}基準線\\
-
-
-\vspace{10mm}
-%% \Fixfbox の定義
-\newcommand{\Fixfbox}[5][c]
+%% \fixbox の定義
+\newcommand{\fixbox}[5][c]
 {
   \fboxsep=0pt \framebox[#2][#1]
   {
-   \rule[-#4]{0mm}{#3}
+   \rule[-#4]{0mm}{#4}\rule[0mm]{0mm}{#3}
    \smash{#5}$\mathstrut$% \mathstrutを最低値とする
   }
 }
 
-\verb|\Fixfbox|を定義：\\
-\verb|\Fixfbox[横配置]{箱の高さ}{下に移動}{文字列}|\\
-\verb|\Fixfbox[c]{50mm}{10mm}{2mm}{文字列}|\\[-2mm]
+\verb|\fixbox|を定義：\\
+\verb|\fixbox[横配置]{幅}{箱の高さ}{下に移動}{文字列}|\\
+\verb|\fixbox[c]{50mm}{10mm}{2mm}{文字列}|\\[-2mm]
 
 \begin{layer}{80}{15}
 \end{layer}
 
-\Fixfbox[c]{50mm}{10mm}{2mm}{\huge{$\dfrac{Yg}{2}$}a3y}aaa
+\fixbox[c]{50mm}{10mm}{2mm}{\Huge{$\dfrac{Yg}{2}$}a2y}aaa
 \rule[0pt]{25mm}{.1pt}基準線\\
 
 \vspace{10mm}
-%% \Fixmbox の定義
-\newcommand{\Fixmbox}[5][c]
+%% \fixboxm の定義
+\newcommand{\fixboxm}[5][c]
 {
   \makebox[#2][#1]
   {
-   \rule[-#4]{0mm}{#3}
+   \rule[-#4]{0mm}{#4}\rule[0mm]{0mm}{#3}
    \smash{#5}$\mathstrut$% \mathstrutを最低値とする
   }
 }
 
-\verb|\Fixmbox|を定義：(枠線を引かない)\\
-\verb|\Fixmbox[横配置]{箱の高さ}{下に移動}{文字列}|\\
-\verb|\Fixmbox[c]{50mm}{10mm}{2mm}{文字列}|\\[-2mm]
+\verb|\fixboxm|を定義：(枠線を引かない)\\
+\verb|\fixboxm[横配置]{幅}{箱の高さ}{下に移動}{文字列}|\\
+\verb|\fixboxm[c]{50mm}{10mm}{2mm}{文字列}|\\[-2mm]
 
 \begin{layer}{80}{15}
 \end{layer}
 
-\Fixmbox[c]{50mm}{10mm}{2mm}{\huge{$\dfrac{Yg}{2}$}a4y}aaa
+\fixboxm[c]{50mm}{10mm}{2mm}{\Huge{$\dfrac{Yg}{2}$}a3y}aaa
 \rule[0pt]{25mm}{.1pt}基準線\\
 
 
-%\end{multicols}
 \end{document}
