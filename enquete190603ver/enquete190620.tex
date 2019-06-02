@@ -1,0 +1,98 @@
+\documentclass[a4paper]{jarticle}
+\usepackage{amsmath,amssymb}  % AMSパッケージ
+\usepackage{ketpic,ketlayer,graphicx,color} % ketpicの利用
+\usepackage{emath,emathMw,emathEy}
+
+\pagestyle{empty}% ページ番号の非印刷
+\setmargintrue{25}{25}{25}{25}
+
+\begin{document}
+\noindent\input{kadaitop}
+
+\begin{center}
+{\bf\Large 授業でのスライドと{\sf KeTCindyJS}利用に関するアンケート}
+\end{center}
+
+今回の授業で，ウェブ上で図を操作してもらい，対称移動を経験しました．（KeTCindyJSといいます）いかがでしたか．
+今後の授業でも，スライドやKeTCindyJSを使って授業することを検討しています．
+
+そこで，皆様に以下のアンケートをご記入いただき，皆様のご意見を今後の授業改善で参考にさせていただきます．
+ご協力のほど，よろしくお願いいたします．
+
+\vspace{3mm}
+まず，授業内容についてお聞きします．
+{\bf 設問1}〜{\bf 設問\ref{choice-number}}については，当てはまる番号を$\bigcirc$で囲んでください．
+\begin{enumerate}[\bf 設問1.]
+\item%設問1
+最初に，問1を解くのに，図を動かして予想してもらいまし。図は，問1を解くのに役に立ちましたか？\vspace{-1mm}
+\begin{edaenumerate}<3>[(1)]
+\item とても役に立った
+\item 少し役に立った
+\item あまり役に立たなかった
+\item まったく役に立たなかった
+\end{edaenumerate}
+
+\item%設問2
+一次変換を行列で表現しましたが，理解できましたか？
+\vspace{-1mm}
+\begin{edaenumerate}<3>[(1)]
+\item すでに知っていた
+\item よく分かった
+\item あまり分からなかった
+\item まったく分からなかった
+\end{edaenumerate}
+
+\item%設問3
+行列と列ベクトルの積で点の移動先を計算しました．理解できましたか？\vspace{-1mm}
+\begin{edaenumerate}<3>[(1)]
+\item すでに知っていた
+\item よく分かった
+\item あまり分からなかった
+\item まったく分からなかった
+\end{edaenumerate}
+
+\item%設問4
+今回の授業の進度はどうでしたか？\vspace{-1mm}
+\begin{edaenumerate}<3>[(1)]
+\item ペースがとても速かった
+\item ペースが少し速かった
+\item ペースが丁度よかった
+\item ペースが少し遅かった
+\item ペースがとても遅かった
+\end{edaenumerate}
+\label{choice-number}
+\end{enumerate}\vspace{5mm}
+
+\newcounter{choice}
+\setcounter{choice}{\theenumi}
+
+次に，{\bf 設問\ref{writing-number-start}}〜{\bf 設問\ref{writing-number-end}}について，箇条書きで記入してください．
+\begin{enumerate}[\bf 設問1.]
+\setcounter{enumi}{\thechoice}
+\item%設問5
+板書よりもスライドを使った授業の方が理解しやすかったと思うことを3つ記入してください。\\
+$\bullet$\\
+$\bullet$\\
+$\bullet$\\
+\label{writing-number-start}
+
+\item%設問6
+スライドよりも板書による授業の方が理解しやすかったと思うことを3つ記入してください。\\
+$\bullet$\\
+$\bullet$\\
+$\bullet$\\
+
+\item%設問7
+PCで図を操作した感想を3つ記入してください。\\
+$\bullet$\\
+$\bullet$\\
+$\bullet$\\
+
+\label{writing-number-end}
+\end{enumerate}
+
+\vfill
+\hfill ご回答いただき，ありがとうございました．
+
+%\newpage
+\end{document}
