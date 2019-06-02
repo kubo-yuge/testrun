@@ -1,0 +1,176 @@
+タイトル::slide0//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ページの区切れ//
+%%main::章タイトル(省略)//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::学習目標//
+\slidepage//
+
+itemize//
+item::1次変換を行列で表現できる。//
+item::1次変換により行列の積を考えることができる。//
+end//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::問題１.//
+%repeat=4//
+\slidepage//
+
+layer::{130}{0}//
+putnote::sw{125}{25}::fig01,.45//
+%[2]::\putnotese{0}{62}{\color{red}\scalebox{1.7}{https://kubo-yuge.github.io/}}//
+end//
+
+平面上の点$\mathrm{P}(x,y)$が直線$y=x$に関する対称移動した点を$\mathrm{Q}(x',y')$とするとき，$x',y'$を$x,y$の式で表せ。\\//
+(答)\\//
+%[2]::{\color{red}リンク先の画像をクリックし，\\ 点$\mathrm{P}$を動かしてみましょう。}\\[22mm]//
+%%[2]::{\color{red}\scalebox{1.5}{https://kubo-yuge.github.io/}}//
+%[3,4]::$\left\{\begin{array}{l}x'=y\\ y'=x\end{array}\right.$\\ \\//
+%[4]::※　この移動は１次変換です。\\ これを$f$とし，$f$について\\ 考えることにする。\\//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::1次変換とは//
+\slidepage//
+
+平面上の点$\mathrm{P}(x,y)$を点$\mathrm{Q}(x',y')$に移す変換\\//
+$f:(x,y)\mapsto(x',y')$において，\\//
+$x',y'$が定数項のない$x,y$の１次式\\//
+$\left\{\begin{array}{l}//
+x'\ =\ ax+by\\//
+y'\ =\ cx+dy\\//
+\end{array}\right.$//
+($a,b,c,d$は定数)\\//
+で表されるとき，この変換$f$を{\color{blue}１次変換}または{\color{blue}線形変換}という。//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::問題１の$f$は１次変換である//
+%repeat=4//
+\slidepage//
+
+layer::{130}{0}//
+putnote::sw{125}{25}::fig01,.45//
+end//
+
+問題１の$f$は，\\//
+%%[1]::$\left\{\begin{array}{l}x'=y\\ y'=x\end{array}\right.$\\//
+%[1]::$\left\{\begin{array}{l}x'=\hspace{16mm}y\\
+%[1]::y'=\hspace{3mm}x\end{array}\right.$\\//
+%[2]::$\left\{\begin{array}{l}x'={\color[gray]{0.7}0x+1}y\\
+%[2]::y'={\color[gray]{0.7}1}x{\color[gray]{0.7}\>+\>0y}\end{array}\right.$\\//
+%%[1,2]::だったが，\\
+%[3,4]::$\left\{\begin{array}{l}x'=0x+1y\\ y'=1x+0y\end{array}\right.$\\//
+%[3,4]::と書けるので，//
+%[4]::１次変換である。\\//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::１次変換$f$を行列で表す（１）//
+%repeat=4//
+\slidepage//
+
+{\color{red}
+layer::{130}{0}//
+%[2,3]::\boxframese{5}{17}{6}{15}{}//
+%[2,3]::\boxframese{20}{17}{22}{15}{}//
+end//
+}
+
+平面上の点$\mathrm{P}(x,y)$を点$\mathrm{Q}(x',y')$に移す１次変換\\//
+$f:(x,y)\mapsto(x',y')$が，\\//
+$\left\{\begin{array}{l}//
+x'\ =\ ax+by\\//
+y'\ =\ cx+dy\\//
+\end{array}\right.$//
+($a,b,c,d$は定数)\\//
+で表されるとき，\\//
+%%[2,-]::\quad ↓\\//
+%[3,4]::\ $\left(\!\!\begin{array}{l}x'\\ y'\end{array}\!\!\right)$//
+%[3,4]::$\!\!=\!\left(\!\!\begin{array}{l}ax+by\\ cx+dy\end{array}\!\!\right)$\\//
+%[4]::というように\textcolor{blue}{列ベクトル}で表す。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::１次変換$f$を行列で表す（２）//
+%repeat=7//
+\slidepage//
+
+連立１次式\\//
+%[1]::$\left\{\begin{array}{lll}x'&=&ax+by\\ y'&=&cx+dy\\//
+%[1]::\end{array}\right.$//
+%[2,-]::$\left\{\begin{array}{lll}x'&=&\textcolor{red}{a}x+\textcolor{red}{b}y\\ y'&=&\textcolor{red}{c}x+\textcolor{red}{d}y\\//
+%[2,-]::\end{array}\right.$//
+($a,b,c,d$は定数)\\//
+%[1,-]::に対し，
+%[2,-]::その係数を並べて{\color{blue}係数行列}という。\\//
+%[3,-]::この式で表される１次変換$f$に対し，\\//
+%[4,-]::\ $\left(\!\!\begin{array}{l}x'\\ y'\end{array}\!\!\right)$//
+%[4,-]::$\!\!=\!\left(\!\!\begin{array}{l}ax+by\\ cx+dy\end{array}\!\!\right)$//
+%[5,-]::を係数行列\ $\left(\!\!\begin{array}{ll}a&b\\ c&d\end{array}\!\!\right)$//
+%[6,-]::を使って，\\//
+%[7]::\ $\left(\!\!\begin{array}{l}x'\\ y'\end{array}\!\!\right)$//
+%[7]::$=\left(\!\!\begin{array}{ll}a&b\\ c&d\end{array}\!\!\right)//
+%[7]::\!\!\left(\!\!\begin{array}{l}x\\ y\end{array}\!\!\right)$//
+%[7]::$\cdots\ (\ast)$//
+%[7]::と表すことする。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::１次変換$f$を行列で表す（３）//
+%repeat=3//
+\slidepage//
+
+問題１の１次変換$f$は，\\//
+$\left\{\begin{array}{l}x'=0x+1y\\ y'=1x+0y\\//
+\end{array}\right.$//
+と書けたから，$f$を表す行列$A$は，\\
+%[2,-]::$A=\left(\begin{array}{ll}0&1\\ 1&0\end{array}\right)$となる。\\//
+%[3]::行列$A$を使って，点$(1,0)$, $(0,1)$の$f$による移動先を\\ 求めてみよう。\\//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::行列$A$と列ベクトルの積//
+%repeat=10//
+\slidepage//
+
+{\color{red}%% 赤で表示//
+layer::{130}{0}//
+%[3..7]::\putnotese{0}{56}{※　式$(\ast)$より$\left(\!\!\begin{array}{ll}a&b\\ c&d\end{array}\!\!\right)\!\!\left(\!\!\begin{array}{l}x\\ y\end{array}\!\!\right)$$=\left(\!\!\begin{array}{l}ax+by\\ cx+dy\end{array}\!\!\right)$を使う。}//
+%[9]::\lineseg{33}{56}{15}{90}//
+%[9]::\lineseg{61}{56}{15}{90}//
+end//
+}%% 赤で表示//
+
+%[1,-]::$A=\left(\begin{array}{ll}a&b\\ c&d\end{array}\right)$のとき，//
+%[2,-]::点$(1,0)$, $(0,1)$の移動先は，\\//
+%[4,-]::$\left(\begin{array}{ll}a&b\\ c&d\end{array}\right)\left(\begin{array}{l}1\\ 0\end{array}\right)=$//
+%[5,-]::$\left(\begin{array}{l}a\\ c\end{array}\right)$
+%[6,-]::, $\left(\begin{array}{ll}a&b\\ c&d\end{array}\right)\left(\begin{array}{l}0\\ 1\end{array}\right)=$//
+%[7,-]::$\left(\begin{array}{l}b\\ d\end{array}\right)$\\//
+%[8,-]::２つの列ベクトルを横に並べると，\\//
+%[9,-]::$\left(\begin{array}{ll}a&b\\ c&d\end{array}\right)\left(\begin{array}{ll}1&0\\ 0&1\end{array}\right)=\left(\begin{array}{ll}a&b\\ c&d\end{array}\right)$//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::問題2.//
+%repeat=5//
+\slidepage//
+
+layer::{130}{0}//
+putnote::sw{125}{25}::fig02,.45//
+%[2..4]::\putnotese{0}{62}{\color{red}\scalebox{1.7}{https://kubo-yuge.github.io/}}//
+end//
+
+平面上の点$\mathrm{P}(x,y)$が直線$y=2x$に関する対称移動した点を$\mathrm{Q}(x',y')$とするとき，$x',y'$を$x,y$の式で表せ。\\//
+(答)\\//
+%[2..4]::{\color{red}リンク先の画像をクリックし，\\ 点$\mathrm{P}$を動かしてみましょう。}\\//
+%[3,4]::{\color{red}どんな点$\mathrm{P}$を考えるといいかな。}\\//
+%[4]::{\color{red}点$\mathrm{P}$として，点$(1,0)$と点$(0,1)$\\ を選んで，点$\mathrm{Q}$を見てみよう。}\\//
+%[5]::$\left\{\begin{array}{l}x'=-\bunsuu{3}{5}x+\bunsuu{4}{5}y\\[4mm] y'=\hspace{4.7mm}\bunsuu{4}{5}x+\bunsuu{3}{5}y\end{array}\right.$\\//
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+new::まとめ//
+%repeat=4//
+\slidepage//
+
+itemize//
+item::1次変換の定義
+item::1次変換を表す行列
+item::行列の積
+end//
+
