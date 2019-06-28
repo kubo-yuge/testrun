@@ -1,0 +1,8 @@
+うっかり消すと困るファイル。
+（１）index.html
+※　gitのリポジトリ「github.test.git」が自動で読みに行くファイル。
+
+（２）kubo-samples.html
+※　上のindex.htmlから読み行くサンプル集へのリンク
+
+
