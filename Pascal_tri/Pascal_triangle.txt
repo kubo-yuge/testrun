@@ -1,0 +1,78 @@
+「KeTCindyによる図入り教材の作成」
+https://w.atwiki.jp/ketcindy/pages/1.html
+から，「基礎数学」>「二項定理」と進んで，
+紹介されていたスクリプトをカスタマイズすることにより，
+パスカルの三角形を描くcdyファイルを用意した。
+(2019/11/19)
+
+(1) 縦横の比を変更可能。（lw, lh の値による。）
+(2) 段を指定可能。（nrange=0..5;といった形式で指定する。）
+
+スクリプトは以下の通り。
+= = = = (スクリプト：ここから) = = = =
+// 関数を定義しておく
+Factorial(n):=( // 階乗を定義
+  if (n>0,
+    product(1..n);
+  ,
+    1
+  );
+);
+
+Combi(n,r):=( // 組合せを定義
+  Factorial(n)/(Factorial(n-r)*Factorial(r));
+);
+
+BinomL(n):=(
+  apply(0..n, Combi(n,#));
+);
+
+Ketinit();
+Addax(0); 
+
+Setunitlen("7mm");
+sep=0.24;// 文字の下の空き（デフォルト0.2）
+len=0.20;// 線分の長さ(デフォルト0.3)
+lw=0.6;  // 横の広がり（デフォルト0.7）
+lh=1.3;  // 縦の広がり（デフォルト1.4＝横の2倍）
+
+nrange=0..5;// a..bの形でn=aの段からn=bの段まで作る
+nrange1=(min(nrange)+1)..max(nrange);
+nrange2=min(nrange1)..(max(nrange)+2);
+
+Putpoint("A",[3,3]);
+//Setcolor([1,0,0,0]); 
+
+forall(nrange1,j,
+  mx=sep+lw*(j-1);
+  my=sep+lh*(j-1)/2;
+  forall(1..j,
+    Listplot(text(j)+text(#)+"1",[[A.x-mx+2*lw*(#-1),A.y-my],[A.x-mx+2*lw*(#-1)-len,A.y-my-len]]);
+    // 左下への線を描く
+    Listplot(text(j)+text(#)+"2",[[A.x+mx-2*lw*(#-1),A.y-my],[A.x+mx-2*lw*(#-1)+len,A.y-my-len]]);
+    // 右下への線を描く
+  );
+);
+
+//Setcolor([0,0,0,1]); 
+
+forall(nrange2,j,
+  mx=lw*(j-1);
+  my=lh*(j-1)/2;
+  if(j<max(nrange2),
+    (
+    forall(1..j,
+      Expr([[A.x-mx+2*lw*(#-1),A.y-my],"c",text(BinomL(j-1)_#)]); 
+    );
+    Expr([[A.x-lw*(max(nrange2)),A.y-my],"c","n="+text(j-1)]);
+    )
+  ,
+   Expr([[A.x-lw*(max(nrange2)),A.y-my],"c","\vdots",[A.x,A.y-my],"c","\vdots"]););
+);
+
+Windispg();
+
+//Help("Setc");
+
+= = = = (スクリプト：ここまで) = = = =
+
