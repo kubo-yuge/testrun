@@ -1,0 +1,124 @@
+%%%%%%%%%% 文書毎に変更しない部分を入力しておく %%%%%%%%%%
+% upLaTeXコンパイルで対応する。（pLaTeXで太字明朝ができないので。）
+% 偶数ページ，奇数ページのヘッダ・フッタを使い分けるために"twoside"が必要。
+%\documentclass[dvipdfmx,a4paper,twoside]{jsarticle}
+%\documentclass[uplaxex,dvipdfmx,a4paper,twoside]{jsarticle}
+
+%%\usepackage{ketpic,ketlayer} % ketpicとlayer環境を使うため(下の2つを要求する)
+%%\usepackage{graphicx,xcolor} % png図を挿入するためgraphicxパッケージ　＆　color を 新しいxcolorにする。
+
+\usepackage{amsmath,amssymb,multicol,fancyhdr,mathrsfs}  % AMSパッケージ，多段組パッケージ，ヘッダ制御の追加，筆記体の指定
+%{\fboxsep=1pt\fbox{\gt\rule{0em}{0.8em}解説}} % 四角囲みはこれで対応できる。
+
+\usepackage[T1]{fontenc} % iにアクセントを付けるのが上手くいかないので。
+
+\setmargin{24}{24}{11}{39}% ketpicパッケージを使っているのだから，余白はketpicのコマンドで．フッタを考慮。
+ \setlength{\columnsep}{6mm}
+\renewcommand{\baselinestretch}{.82} % 行送りを0.814--0.829倍に詰めて、48行が収まるように調整。
+
+%%\setmargin{24}{24}{30-vf}{20+vf}% フッタの高さ・位置の分vfだけ調整する。
+%%%%%%%%%% ヘッダフッタを制御する。(2ページ以降に重要)
+ \pagestyle{fancy} \cfoot{}                                 % ヘッダ・フッタの制御、ページ番号の非印刷
+ \setcounter{page}{1}                                       % ページの開始番号を変更
+ \renewcommand{\headrulewidth}{0pt}\lhead{}\chead{}\rhead{} % ヘッダの線を引かず、ヘッダを付けない。ページ番号もなし（\thepageを除去）
+ \headheight=10mm % ここの値が，上のvfに影響を与える。
+ \headsep=8mm % ヘッダと本文が重なるので挿入。
+
+%%%%%%%%%%%%% 弓削紀要様式にするためのプリアンブル部分 %%%%%%%%%%%%%
+
+%%%% ２ページ以降のヘッダ・フッタのためのコマンド %%%%
+\newcommand{\secondhead}[2]{
+\pagestyle{fancy}\renewcommand{\headrulewidth}{0pt}\renewcommand{\footrulewidth}{0pt}\lfoot{}\cfoot{}\rfoot{}
+\chead[#1] {#2} }
+
+%%%%文字コードをUTF-8へ%%%%
+
+%%% 多書体利用の本体(明朝・ゴシックともに２つの太さが使えるようにする) %%%%
+\usepackage[deluxe]{otf} % \bfseriesでもゴシックと明朝が使えるようにするため
+
+%%%%%セクションタイトルを中央寄せにして、大きさをノーマルサイズに%%%%
+% sectionタイトルの前後は2行あけ、中央寄せにする。section番号とsectionタイトルは続ける。
+\makeatletter%% プリアンブルで定義する場合は必須
+\renewcommand{\section}{
+  \@startsection{section}% #1 見出し
+   {1}% #2 見出しのレベル
+   {\z@}% #3 横組みの場合，見出し左の空き(インデント量)
+   {.5\Cvs \@plus .5\Cdp \@minus.2\Cdp}% #4 見出し上の空き
+   {.5\Cvs \@plus.9\Cdp}% #5 見出し下の空き (負の値なら見出し後の空き) 
+   {\centering\reset@font\normalsize\gtfamily\bfseries}% #6 見出しの属性(中央揃え＆ゴシック・太字)
+}% renwecommandの終わり
+\makeatother%% プリアンブルで定義する場合は必須
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%subsectionタイトルを左寄せ、ノーマルサイズ、前は１行空け、後ろは通常の行送り%%%%
+\makeatletter%% プリアンブルで定義する場合は必須
+\renewcommand{\subsection}{
+  \@startsection{subsection}% #1 見出し
+   {2}% #2 見出しのレベル
+   {\z@}% #3 横組みの場合，見出し左の空き(インデント量) カウンタ数字を含めた開始位置
+   {.5\Cvs \@plus.9\Cdp \@minus.2\Cdp}% #4 見出し上の空き
+   {.0\Cvs \@plus.0\Cdp}% #5 見出し下の空き (負の値なら見出し後の空き) 
+  {\reset@font\normalsize\gtfamily\bfseries}% #6 見出しの属性（ゴチック&太字）
+}% renwecommandの終わり
+\makeatother%% プリアンブルで定義する場合は必須
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+
+%%%% section の番号に全角数字を使うことで、紀要の様式に合わせる %%%%
+\makeatletter%% プリアンブルで定義する場合は必須
+\def\@arabicz#1{%
+  \ifcase#1 ０\or １\or ２\or ３\or ４\or ５\or ６\or ７\or ８\or ９\or １０\or
+  １１\or １２\or １３\or １４\or １５\or １６\or １７\or １８\else\@ctrerr\fi} % (1～10を用意)
+  \def\arabicz#1{\expandafter\@arabicz\csname c@#1\endcsname}%１２３ 全角
+\makeatother%% プリアンブルで定義する場合は必須
+
+%%%%%%%%%%%% 上で定義した数字を節番号に利用する %%%%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\arabicz{section}{.\hspace{-1.2ex}}} % 節番号をピリオド付きの全角数字にする。
+\renewcommand{\thesubsection}{\thesection{\hspace{2ex}\arabicz{subsection}}} % sub節番号をピリオド付きの全角数字にする。
+
+\renewcommand{\thesubsubsection}{\thesubsection{\hspace{.2ex}.\arabicz{subsubsection}}} % subsub節番号をピリオド付きの全角数字にする。
+
+%%%%%%%%%%%% 図のキャプション番号の様式を変更する %%%%%%%%%%%%%%%%%%
+\makeatletter
+\long\def\@makecaption#1#2{ %
+\vskip\abovecaptionskip
+\iftdir\sbox\@tempboxa{#1\hskip1zw#2} %
+\else\sbox\@tempboxa{\textbf{#1}　#2} % ←変更
+\fi
+\ifdim \wd\@tempboxa >\hsize%
+\iftdir #1\hskip1zw#2\relax\par
+\else \textbf{#1:} #2\relax\par\fi % ←変更
+\else
+\global \@minipagefalse
+\hbox to\hsize{\hfil\box\@tempboxa\hfil}
+\fi
+\vskip\belowcaptionskip}
+\makeatother
+
+%%%% 行間の指定 %%%%
+%この後の行間の指定が、本文の式やsection 位置によって勝手に調整されないように次の2行を加えておく。
+\raggedbottom  % 通常の対策
+\raggedcolumns % multicol環境に対する対策
+
+%%%%紀要は図の前後を2行ずつ空ける%%%%
+% 2段組ページの途中に出力される図と本文の間の余白※未解決
+%\abovecaptionskip=0pt \belowcaptionskip=24pt % 図のキャプションの上下を指定、
+ \abovecaptionskip=0pt \belowcaptionskip=1.9\Cvs % 図のキャプションの上下を指定、紀要は図の前後を2行ずつ空けるのでキャプションの下だけ２行空ける
+
+%%%%%%%%% 2段組の文章中に画像を挿入するための定義（以下の4行）%%%%%%%%%%
+\makeatletter
+\newenvironment{tablehere}  {\def\@captype{table}}  {}
+\newenvironment{figurehere}  {\def\@captype{figure}}  {}
+\makeatother
+
+%%%%%%%%%% 行間の調整めやす %%%%%%%%%%
+% subsectionタイトルは前のみ1行あける。1行の中で左寄せ(本文と同じ）。本文とは通常の改行。section番号とsectionタイトルは、1文字あける。
+% 図の前後は2行あける。図と図も2行あける。図とsectioタイトル、図とsubsectionタイトルの間は間隔の大きい方とし、2行あける。
+
+% 「Abstract」は、centuryの太字を指定されているので、\bf で代用する。
+
+%%%%%%%%%% 短縮形のためのコマンド %%%%%%%%%%
+
+% \単語Abstract
+\newcommand{\単語Abstract}{{
+{\bf\fontsize{12pt}{0pt}\selectfont \hfil\ {\hbox to 17mm{A\!\hfil b\!\hfil s\!\hfil t\!\hfil r\!\hfil a\!\hfil c\!\hfil t}}\hfil\ \ }
+}}

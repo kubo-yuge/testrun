@@ -1,0 +1,485 @@
+\documentclass[uplatex,dvipdfmx,a4paper,twoside]{jsarticle}
+%\documentclass[dvipdfmx,a4paper,twoside]{jsarticle}
+\input{弓削紀要様式R1.tex} % 弓削紀要の様式(タイトル、番号)に合わせるためのもの
+% upLaTeXでコンパイルするように変更（昨年までと異なる）。
+
+\newcommand{\maintitlej}{{\TeX {による問と答の表示切替}3}} % ここで和文タイトルを定義して使い回す．
+
+% 2ページ以降のヘッダ・フッタを設定する(ここで定義した \secondpagehead を挿入する)。1ページ目は，別に定義する。
+% 全体のヘッダを定義して，1ページ目だけ別に定義するすれば，2ページ目の開始位置を調べなくてよい。
+{ \secondhead % \secondhead は，様式で定義済みの書式
+{弓削商船高等専門学校 紀要 第$\!$42$\!$号 (令和元年) } % 偶数ページ % 号、発行年を更新
+{\maintitlej} }  % 奇数ページ % 和文タイトル（ヘッダ用）を利用
+%%%% ここまででヘッダ・フッタの定義をすます。
+
+\setlength\textheight{240mm}%% 先頭ページのみのレイアウト（著者が2名のとき）
+%\setlength\textheight{247mm}%% 2ページ以降のレイアウト（現在133行目にある）
+
+
+\begin{document}
+
+%%%% 最初のページのヘッダ・フッタ(ここから) %%%% ヘッダ無し、フッタあり。(フッタ：所属と提出日)
+\thispagestyle{empty}
+\begin{layer}{170}{0}% 最初のページのみlayer環境でヘッダ・フッタを指定
+\lineseg[4]{0}{240}{160}{0}
+\putnotesw{160}{242.5}{令和元年11月30日受理}
+\putnotese{000}{242.5}{＊ 総合教育科}
+\putnotese{000}{247.5}{＊＊ 山陽小野田市立山口東京理科大学 共通教育センター}
+\end{layer}
+%%%% 最初のページのヘッダ・フッタ(ここまで) %%%%
+
+\begin{center}
+\vspace*{-6mm}
+{\fontsize{20pt}{0pt}\selectfont \textbf{\maintitlej}} % 和文表題を\maintitlejで挿入
+
+% {\fontsize{16pt}{0pt}\selectfont --- 平成３０年度の準備(副題16pt) ---} % 和文副題
+ \end{center}
+\vspace*{.3\baselineskip} % centring による行送りを考慮して、10ポイントの１行空きに調整する。
+
+\begin{flushright}{\fontsize{14pt}{0pt}\selectfont　久保　康幸 $^＊$・亀田 真澄 $^{＊＊}$}\end{flushright} % 和文著者名
+\vspace*{.3\baselineskip}
+
+{\setlength{\baselineskip}{19pt}
+\begin{center} {\fontsize{18pt}{0pt}\selectfont\bf 3rd Step of Indication Switching of the Question and the Answer in \TeX \ Materials} % 英文タイトル
+
+%{\fontsize{14pt}{0pt}\selectfont --- Sub Title(14point, centering) ---} % 英文サブタイトル
+\end{center} }
+\vspace*{.3\baselineskip}
+
+\begin{flushright}{\fontsize{14pt}{0pt}\selectfont Yasuyuki Kubo $^＊$，Masumi Kameda $^{＊＊}$}\end{flushright}  % 英文著者名
+\vspace*{.3\baselineskip}
+
+\begin{center}
+%{\bf\fontsize{12pt}{0pt}\selectfont Abstract} % 少し間延びして見える
+\単語Abstract % 字間を詰めてセンタリング入れる準備
+\end{center}
+
+\vspace*{-.5\baselineskip}
+% 英文でアブストラクト：英文で、内容を紹介する。 
+First of all, we have improved the way to switch the display of questions and answers in the material created with {\TeX}.
+Next, we report a correction to the regular expression code for syntax coloring of text in a text editor.
+Finally, we will introduce the ideas we added to create teaching materials using {\TeX} in creating teaching materials in this year's class.
+
+\vspace*{2\baselineskip}
+%%%% ここまででタイトル・著者・Abstract など本文に入る前の準備をすます。%%%%
+
+\begin{multicols}{2}
+\vspace*{-1.5\baselineskip} % 2段組の開始がタイトルなので、右の段に会わせるための調整
+%\section{はじめに({\sffamily\bfseries \TeX}版の様式)}
+\section{まえがき}
+著者らは，久保・亀田 [1, 2], および，久保[3] において，``ctoi''環境と``ckai''環境の組合せにより，教材の使用環境に合わせて使用することができる「問と答の表示切替」の{\TeX}ソースを提案している。
+
+本稿では，久保・亀田 [1--3]が提案した手法を改善させる新たなアイデアを報告する。
+
+\subsection{以前の{\TeX}環境の使い方}
+久保・亀田 {[1, 2]}の切替手法は，表示切替を行う直前で{\TeX}コマンドの再定義をすることで実現している。
+例えば，同一ページにおいて，問（黒色で印字）と答（赤色で印字）を混在させた教材には，次の``ckai''環境を使用する。
+\begin{verbatim}
+\renewenvironment{ckai}{\color{red}}
+ {\relax}
+\end{verbatim}
+
+教材の目的別（問だけを表示させた教材，さらに赤色で印字された答を追記させた解答付き教材など）の表示切替に応じて，{\TeX}ソースの環境再定義部分を変更して，コンパイルするのが久保・亀田 {[1, 2]}での使い方であった。
+
+久保{[3]}では，設問（計算付き答と問が含まれている）を外部ファイルで作成し，そのファイルを``\verb|input|''コマンドで取り込む{\TeX}ソースで構成することにより，コンパイル回数が1回で済み，かつ目的別のページを含むpdfファイルが作成された。すなわち，\\
+
+一つの{\TeX}ソースで，一部を書き換えることで表示を切り替えた複数のpdfファイルを得るのでなく，一回のコンパイルで，2つ以上の切り替えた状態のものを，一つのpdfファイルにまとめる。\\
+
+久保{[3]}で紹介した表示切替手法を用いた{\TeX}ソースを次に紹介する。
+
+\begin{verbatim}
+\renewenvironment{ckai}{\color{red}}
+ {\relax}
+\input{doc.txt}
+\newpage
+
+\renewenvironment{ckai}{\color{white}}
+ {\relax}
+\input{doc.txt}
+\end{verbatim}
+
+ここでは，設問（計算付き答と問が含まれている）を含んだ``\verb|doc.txt|''ファイルを別途作成する。
+その計算付き答の部分では，``ckai''環境（\verb|\begin{ckai}|と\verb|\end{ckai}|で囲む）が使用されている。
+そのファイルを利用する{\TeX}ソースをコンパイルすれば，問の部分は普通に印字され，計算付き答の部分が赤色で印字された1ページ目と問の部分は普通に印字されるが，計算付き答の部分が印字されていない2ページ目が作成される。
+
+\setlength\textheight{247mm}%% 2ページ以降のレイアウト(1ページ目の途中に入れる)
+
+\section{表示切替の改善方法}
+\subsection{修正点1（表示切替の指定方法）}
+
+今回紹介する方法では，答の部分を\verb|\begin{\ckai}|と\verb|\end{\ckai}|ではさんでおき，それを利用するとき，先に用意しておいた環境名から選んで``\verb|\ckai|''に指定することにした。
+
+はじめに，候補となる環境を本体の{\TeX}ソースのプリアンブル部分で定義しておく。例えば，``\verb|Cred|''環境を使用することで，対象となる文字や図表が赤色で印字される。
+
+次に，``\verb|input|''コマンドの対象となる外部ファイルにおいて，設問の答の部分には(``\verb|ckai|''環境でなく) ``\verb|\ckai|''環境を使用する。
+
+本体の{\TeX}ソースにおいて，設問を記述した外部ファイルを取り込む直前において，次の{\TeX}コマンドを記述する。
+\begin{verbatim}
+\renewcommand{\ckai}{Cred}
+\end{verbatim}
+
+このコマンド使用後では，``\verb|\ckai|''環境が``\verb|Cred|''環境として作用し，赤色の文字情報が印字されることになる。
+
+\subsection{修正点2（利用するファイルの作成法）}
+久保{[3]}で紹介した切替手法は，本体の{\TeX}ファイルとは別に，``\verb|input|''コマンドの対象となる設問等を記述した外部ファイルを用意していた。
+そのため，ある教材をコピーして，新たな教材を編集するには，コンパイルのための本体の{\TeX}ソースファイルと教材の内容を入力したファイルをそれぞれコピーするだけでなく，本体の{\TeX}ソースの``\verb|input|''コマンドで利用する外部ファイル名との紐づけを手動で修正する必要がある。
+
+今回紹介する方法は，本体の{\TeX}ソースの中に設問部分を入力し，コンパイル時に自動で設問部分だけの外部ファイルを作成して利用する方法である。
+自動で作成する外部ファイルは，本体の{\TeX}ソースのファイル名を自動で利用する形式を取った。
+その結果，既存の{\TeX}ソースの教材をコピーして，新たな{\TeX}ソースの教材を編集する場合には，本体の{\TeX}ソースファイルだけをコピーすればよい。
+すなわち，工程数の減少という作業効果が生まれる。
+
+設問部分は，\verb|\opentxt|と\verb|\begin{CKdata}|の2行をはじめとし，
+\verb|\end{CKdata}|と\verb|\closetxt|
+の2行で終わる。
+
+利用したのは，\verb|answers|パッケージのファイル出力機能であり，今回の目的のために，本来の命令文を簡略化して使っている(Wright et al.[4], 大石[5])。
+
+\subsection{{\TeX}ソースの実例}
+
+この小節では，{\TeX}ソースの実例を紹介する。
+
+まず，プリアンブル部分で3つのパッケージを指定する。これらのパッケージは，いずれも\verb|CTAN|から取得できる。\par
+(1)\ 指定部分を空白だけ確保したり，色を指定するため，\verb|color|{[6]}または\verb|xcolor|{[7]}，いずれかのパッケージ\par
+(2)\ 指定した部分をコメントアウトするため，\verb|versions|パッケージ{[8]}\par
+(3)\ 今回の修正点である，ファイル出力のため，\verb|answers|パッケージ{[4]}
+%%以上の3つである。
+
+次に，(1),(2) で指定したパッケージを利用して，表示を切り替える環境をプリアンブル部分で定義する。
+なお，定義した環境の名前は，大文字の\verb|C|で始まるように統一した。
+
+\begin{verbatim}
+%%%%始まり%%%%
+%%%%プリアンブル内%%%%
+\excludeversion{Comit}
+ % Comit環境はコメントアウト
+\newenvironment{Ckeep}{\relax} {\relax}
+ % Ckeep環境は何もしない
+\newenvironment{Cred}{\color{red}}{\relax}
+ % Cred環境は赤色
+\newenvironment{Cwhite}{\color{white}}
+{\relax} 
+ % Cwhite環境は空白(白色)
+%%%%終わり%%%%
+\end{verbatim}
+
+さらに，設問部分をファイルに出力するため，\verb|answers|パッケージによる準備をする。
+
+出力するファイルの拡張子を\verb|txt|とし，ファイル名を{\TeX}ソースの名前を利用しつつ，区別できる名前にした。
+
+\begin{verbatim}
+\renewcommand{\solutionextension}{txt}
+\Newassociation{CKdata}{output_data}
+{\jobname.temp}
+\end{verbatim}
+
+これにより，{\TeX}ソースの名前が，``\verb|aaa.tex|''であれば，コンパイル時に自動で``\verb|aaa.temp.txt|''というファイルが出力される。
+
+次に，表示切替を含む設問部分について説明する。例えば次のように入力する。
+
+\begin{verbatim}
+\opentxt
+\begin{CKdata}
+  問：
+  \begin{\ctoi}問の文\end{\ctoi} 
+  \begin{\ckai}解の部分\end{\ckai}
+  次の問
+  \newpage
+\end{CKdata}
+\closetxt
+\end{verbatim}
+
+これにより，出力されるファイルには，次の内容が入る。
+\begin{verbatim}
+\begin{output_data}{}
+  問：
+  \begin{\ctoi}問の文\end{\ctoi}
+  \begin{\ckai}解の部分\end{\ckai}
+  次の問
+  \newpage
+\end{output_data}
+\end{verbatim}
+
+さらに，``\verb|input|''コマンドで指定するファイル名の入力ミスを防ぐため，``\verb|printdoc|''コマンドを次のように定義した。\\
+\verb|\newcommand{\printdoc}{\input{\jobname.temp| \verb|.txt}}|
+
+これらの準備ののち，{\TeX}ソースのdocument環境(文書環境)に次のように入力する。
+\begin{verbatim}
+%%%%始まり%%%%
+解答部分が色違い
+\renewcommand{\ctoi}{Ckeep}
+ %% ctoi部分を通常の黒色
+\renewcommand{\ckai}{Cmagenta}
+ %% ckai部分をマゼンタ色
+\printdoc
+ %% 上で定義した本文の挿入
+
+解答部分が空白
+\renewcommand{\ctoi}{Ckeep}
+ %% ctoi部分を通常の黒色
+\renewcommand{\ckai}{Cwhite}
+ %% ckai部分を白色（空白）
+\printdoc
+ %% 上で定義した本文の挿入
+
+解答部分を詰めた
+\renewcommand{\ctoi}{Ckeep}
+ %% ctoi部分を通常の黒色
+\renewcommand{\ckai}{Comit}
+ %% ckai部分を詰める
+\printdoc
+ %% 上で定義した本文の挿入
+%%%%終わり%%%%
+\end{verbatim}
+
+このコマンドにより，コンパイル後に得られたpdfファイルは，図1--3に示す3ページで構成されたものになる。
+なお，見やすくするため，字を大きく設定してある。
+
+\section{現在の課題と一時的対処法}
+第2節で紹介した表示切替機能を利用した教材を使用した場合に起こる課題が2つある。この節では，対処法とともに紹介する。
+%% 現在の問題点は，「このようにすると，エラーのためコンパイルできない」というものなので，参照図はない。
+
+\subsection{``{\tt Cwhite}''環境の課題}
+計算付き答の部分を空白にしているのは，``\verb|Cwhite|''環境により，単に図表や文字の印字を白色にしているだけである。そのため計算付き答の部分において，{\ketcindy} {[9]}で作成した色指定された図，または色装飾された``png'', ``pdf''形式等の画像を使用した場合，計算付き答の部分において非表示にならずに印字されてしまう課題が存在していた。\par
+次に，前述の印字非適応となる課題を解決した実例を紹介する。
+
+【{\gt 対処法}】
+図をketlayerパッケージの``layer''環境で配置している場合，図を配置している行をコメントアウトしても，他の文章や図の配置に影響しないことを利用する。``\verb|\ctoi|''環境，``\verb|\ckai|''環境に加えて，``\verb|\cfig|''環境を考え，``\verb|\ckai|''環境を``\verb|Cwhite|''環境に指定するときには``\verb|\cfig|''環境を``\verb|Comit|''環境に指定すればよい。\\
+
+【{\gt ソース例}】
+\vspace{-3mm}
+\begin{verbatim}
+\begin{ckai}
+  \begin{layer}{100}{0}
+    \begin{\cfig}
+    \putnotse{10}{5}{\input{fig.tex}}
+    \end{\cfig}
+  \end{layer}
+  \vspace{40mm}
+\end{ckai}
+\end{verbatim}
+
+
+\vspace{7mm}
+% 図1の挿入。upLaTeXでは，BBdataが必須
+\vspace{6mm}
+\scalebox{0.5}{\includegraphics[bb=0.00 0.00 250 130]{fig/fig1-1.png}}\vspace{0mm}
+\begin{center}{\bf 図1}　第1ページ印字例A\end{center}
+
+\vspace{4mm}
+% 図2の挿入。upLaTeXでは，BBdataが必須
+\vspace{6mm}
+\scalebox{0.5}{\includegraphics[bb=0.00 0.00 250 130]{fig/fig1-2.png}}\vspace{0mm}
+\begin{center}{\bf 図2}　第2ページ印字例A\end{center}
+
+\vspace{4mm}
+% 図3の挿入。upLaTeXでは，BBdataが必須
+\vspace{6mm}
+\scalebox{0.5}{\includegraphics[bb=0.00 0.00 250 130]{fig/fig1-3.png}}\vspace{0mm}
+\begin{center}{\bf 図3}　第3ページ印字例A\end{center}
+\vspace{4mm}
+
+【{\gt 説明}】
+通常，{\ketcindy}で作成した図を``\verb|layer|''環境で配置する場合，図と図の後の文章とが重ならないように，図の大きさに応じて``\verb|vspace|''コマンドによる空白を``\verb|layer|''環境の直後に入れる。ソース例の7行目にある``\verb|\vspace{40mm}|''を用いることで図と文章との重なりを解決させている。
+
+``\verb|\ckai|''環境を``\verb|Cwhite|''環境とするときに，同時に，``\verb|\cfig|''環境を``\verb|Comit|''環境としておけば，4行目がコメントアウトされ，図2と同様に，答の部分にある図なども含めて印字されないで，かつレイアウトも変化しない。
+
+``\verb|\ckai|''環境を``\verb|Comit|''環境とする場合は，``\verb|vspace|''コマンドによる空白を含めて，``\verb|layer|''環境もコメントアウトされて，図3と同様に，答の部分にある図のスペース分が詰められて印字される。
+
+%\vspace*{-10mm}
+\subsection{``{\tt Comit}''環境の課題}
+``\verb|Comit|''環境の実現のため利用している\verb|versions|パッケージの性質により，``\verb|Comit|''環境を他の{\TeX}コマンドの引数として利用できないという課題が存在している。
+
+\subsubsection{枠線に関する対処法}
+答の部分に枠線付きの部分が混在する教材に対する対処法を紹介する。
+
+例えば，穴埋め問題で，
+「数列$2,\framebox[8mm]{$6$}\;,10,\dots$」というように第2項の$6$を枠の中央に表示切替なしで入力する場合の{\TeX}ソースは，次のように設定することになる。
+\begin{verbatim}
+数列$2,\framebox[8mm]{$6$}\;,10,\dots$
+\end{verbatim}
+ここで，単に\verb|$6$|を\\
+\verb|\begin{\ckai}$6$\end{\ckai}|\\
+に置き換えた場合の{\TeX}ソースは次のようになる。
+\begin{verbatim}
+数列$2,
+\framebox[8mm]{
+  \begin{\ckai}$6$\end{\ckai}
+}
+\;,10,\dots$
+\end{verbatim}
+この場合，``\verb|\ckai|'' 環境を``\verb|Comit|'' 環境としたページで，{\TeX}コンパイル時にエラーとなる。
+
+%%{\gt 対処法1 :}
+上述の使用例のエラーへの対処は，次のように設定することで解決させている。
+\begin{verbatim}
+数列$2,
+\framebox[8mm]{\mathstrut}
+\hspace{-4mm}
+  \begin{\ckai}
+  \makebox[0mm]{$6$}
+  \end{\ckai}
+\hspace{4mm}
+\;,10,\dots$
+\end{verbatim}
+
+【{\gt 説明}】
+1行目で，枠を入力する。今回は，幅を$8$mmとした。
+中が空白などのときは枠の高さが低くなるので，数式の高さを確保する``\verb|mathstrut|''コマンド{[10]}などを入れておく。
+枠に重ねるのが全角文字列なら全角空白を入れれば適切な高さになる。\par
+2行目で枠の幅の半分を左へ戻す。\par
+3行目から5行目までが``\verb|\ckai|''環境である。
+``\verb|\ckai|''環境をどんな環境に指定するかによらず，枠に入れる文字列によってレイアウトが崩れないよう，``\verb|makebox|''コマンドで幅を$0$mmに指定する。\par
+6行目で枠の幅の半分だけ右へ送る。2行目と6行目により，枠の右端の位置から次の文字列が続く。
+
+この対処法により，図4--6 に示めされたイメージを持つ3ページで構成されたpdfファイルが生成される。
+
+すなわち，図4では，問1, 2, 3 の答の部分が赤色で印字される。
+図5では，問1，2，3 の答の部分に，答の広さ分（同等な高さと幅となる領域分）の空白が印字される。
+図6では，問1の枠は大きさが変わらないが，2，3 の解答部分だけが詰められて印字されており，``\verb|\ckai|''環境を``\verb|Comit|''環境に指定していることが分かる。
+この実例のように，枠付きの問が混在した設問に対しても問題なくコンパイルできるようになった。\\
+
+
+\vspace{7mm}
+% 図4の挿入。upLaTeXでは，BBdataが必須
+\vspace{6mm}
+\scalebox{0.5}{\includegraphics[bb=-20 0 250 130]{fig/fig3-1.png}}\vspace{0mm}
+\begin{center}{\bf 図4}　第1ページ印字例B\end{center}
+\vspace{4mm}
+
+\vspace{7mm}
+% 図5の挿入。upLaTeXでは，BBdataが必須
+\vspace{7mm}
+\scalebox{0.5}{\includegraphics[bb=-20 0 230 130]{fig/fig3-2.png}}\vspace{0mm}
+\begin{center}{\bf 図5}　第2ページ印字例B\end{center}
+\vspace{4mm}
+
+
+\vspace{7mm}
+% 図6の挿入。upLaTeXでは，BBdataが必須
+\vspace{7mm}
+\scalebox{0.5}{\includegraphics[bb=-20 0 230 130]{fig/fig3-3.png}}\vspace{0mm}
+\begin{center}{\bf 図6}　第3ページ印字例B\end{center}
+%\vspace{4mm}
+
+\subsubsection{下線に関する対処法1}
+%{\gt 対処法2 :}
+答の部分に下線付きの答が混在する教材に対する対処法を紹介する。
+
+下線付きの答として，``\underline{(答)\color{red}\makebox[8mm]{$6$}}'' を考える。
+答の値の6を表示切替しないなら，単純に``\verb|underline|''コマンドを使用して，次の{\TeX}ソースを使えばよい。
+\begin{verbatim}
+\underline{(答)\makebox[8mm]{$6$}}
+\end{verbatim}
+これに対し，前小節にある「枠線」への対処法と同様の考えで「下線」への対処をした{\TeX}ソースの実例を次に示す。
+
+\begin{verbatim}
+\underline{
+  (答)\makebox[8mm]{}
+}
+\hspace{-4mm}
+  \begin{\ckai}
+  \makebox[0mm]{$6$}
+  \end{\ckai}
+\hspace{4mm}
+\end{verbatim}
+
+\subsubsection{下線に関する対処法2}
+前小節とは異なり，``\verb|underline|''コマンドを使わない対処法を紹介する。この対処法では，下線の上下位置を調整できる。次のような{\TeX}ソースを次のように設定する。
+\begin{verbatim}
+$\begin{array}{@{}c@{}}
+(答)
+\begin{\ckai}
+\makebox[8mm]{$6$}
+\end{\ckai}\\[-.4ex]
+\hline\end{array}$
+\end{verbatim}
+
+【{\gt 説明}】
+1列の``\verb|array|''環境を用意する。列の左右に付く空きをなくすため，``\verb|@{}|''を使った{[10]}。\par
+必要な幅を指定して，``\verb|makebox|''コマンド内に表示切替する部分を入力し，``\verb|\ckai|''環境に入れる。``(答)''は，表示させたままなので，``\verb|\ckai|''環境に入れていない。\par
+``\verb|hline|''コマンドにより，長さを指定しなくても，上の行と同じ幅の線が引かれる。\par
+すなわち，図5の「枠線」と同様に「下線」付きの事例の印字イメージにおいては，答の数値だけが印字されない。
+また，図6の「枠線」と同様に，「下線」付きの事例の印字イメージにおいては，解答欄の長さ分の下線だけが印字されるが，それ以外の解答部分の行は詰められて印字される。\par
+ただし，下線と上行の文字列との上下位置を微調整するため，``\verb|array|''環境の1行目の最後を行間隔付き改行命令``\verb|\\[-.4ex]|''としてあるが，通常の改行命令``\verb|\\|''にしても，位置関係のズレは目立たない。\par
+``\verb|hspace|''コマンドによって左へ右へ文字列を移動させて調整する方法に比べ，``\verb|array|''環境なので，「中央揃え」「右寄せ」または「左寄せ」に変更するのはそれぞれに対応した1文字のオプション``\verb|c|''\ ``\verb|r|''または``\verb|l|''だけを変更するだけで解決できる。\\
+
+\section{サクラエディタの構文色付けの修正}
+久保{[3]}で，サクラエディタ{[11]}の構文色付けにより，{\ketcindy}でスライドを作成するときの工夫を紹介した。\par
+{\ketcindy}でスライドを作成するときには，{\TeX}コマンドに加えて，いくつかのコマンドが用意されていて``\verb|%|''を先頭に持つコマンドもある{[9]}。\par
+例えば，編集中の画面(図7)では，オレンジ色の表示としているコマンド(例：\verb|%repeat|, \verb|new::|)は，{\ketcindy}でスライドを作成するときの独特のコマンドである。
+また，コメントの箇所(例：\verb|%%|数式は)はピンク色表示などを活用している。
+
+実際にサクラエディタで表示切替の教材を作成中に気づきがあり，その正規表現に関するコメントを最後に紹介する。
+修正した正規表現のみを紹介する。\\
+
+◆改善正規表現法(1)：\\
+\verb+/[\$|\&]/k+\\
+【説明】 \\
+数式タグ``\verb|$|''を編集時において茶色表示させるため\\
+\verb+/(\$|begin|end)(?![a-zA-Z])/k+\\
+とした場合，他の箇所で影響が出てきたので，一部を\\
+\verb+/[\$]/k+ \\
+に変更することで，他の影響を解消させた。さらに，区切りタグ``\verb|&|''に対しても同様な設定を行った。\\
+
+◆改善正規表現法(2)：\\
+\verb+/(\\begin|\\end)(\{\\?\w*\*?)(?=\})\}/k+\\
+【説明】\\ 
+例えば，``\verb|eqnarray|''コマンドに対する``\verb|eqnarray|$\ast$''コマンドのように最後尾に``$\ast$''が付く{\TeX}コマンドに対応させるため``\verb|\\?|''を付けた。
+また，今回の表示切替の``\verb|\begin{\ckai}|''などのように環境名をコマンドで指定する場合にも対応させるためにも正規表現において``\verb|\\?|''オプションを付加させた。
+
+\vspace{8mm}
+% 図7の挿入。upLaTeXでは，BBdataが必須
+\vspace{6mm}
+\scalebox{0.6}{\includegraphics[bb=-40 0 250 100]{fig/fig4.png}}\vspace{0mm}
+\begin{center}{\bf 図7}　構文色付けの例\end{center}
+\vspace{7mm}
+
+\columnbreak
+
+%\section*{参考文献および参考{\sffamily\bfseries URL}}
+\section*{参考文献}
+
+{ % 一時的なenumerate環境の始まり
+\renewcommand{\labelenumi}{{\tt [\arabic{enumi}]}} %item での番号形式を変更
+\labelsep 0em % 各階層のラベルと項目の間の間隔（問題番号と文頭の間隔）
+\leftmargini  1.6em % 階層1の左マージン
+\begin{enumerate}
+\item \ 久保康幸・亀田真澄 : \TeX による問と答の表示切替, 弓削商船高等専門学校紀要, 第38号, pp.87--89, (2016).
+
+\item \ 久保康幸・亀田真澄 : \TeX による問と答の表示切替2, 弓削商船高等専門学校紀要, 第39号, pp.29--33, (2017). 
+
+\item \ 久保康幸 : \TeX と \KeTCindy 2つの工夫, 弓削商船高等専門学校紀要, 第41号, pp.12--15, (2019).\par
+
+\item \ Wright,J et al. : Production of solution sheets in {\LaTeX2$\varepsilon$}, answers.pdf (2014)(\verb|https://ctan.| 
+\verb|org/pkg/answers|)
+
+\item \ 大石勝 : answers.sty(Ver.2.10)に関するメモ, \\
+ans-memo.pdf (2019/11/26リンクを確認)：\par
+\verb|http://www9.oninet.ne.jp/ohishi/tex/|\par
+
+\item \ color パッケージ : \verb|https://ctan.org/pkg/|\\
+\verb|color|
+
+\item \ xcolor パッケージ : \verb|https://ctan.org/pkg/|\\
+\verb|xcolor|
+
+\item \ versions パッケージ : \verb|https://ctan.org/pkg/|\\
+\verb|versions|
+
+\item \hspace{-1.7mm} 「Ketpic.com」(\verb|http://ketpic.com/|)
+
+%\item \ 高遠節夫ほか : 著書タイトル名, 出版社名, (出版年). 
+\item \ 奥村晴彦ほか : {\LaTeX}2{$\varepsilon$}美文書作成入門[改訂第7版], 技術評論社(2017).
+
+\item \ サクラエディタ : ヘルプマニュアル, \verb|https://|\\ \verb|sakura-editor.github.io/| (最終更新日 : \\ 2015/03/01 )
+
+\end{enumerate}
+} % 一時的なenumerate環境の終わり
+
+
+\newpage
+
+\end{multicols}
+
+\end{document}

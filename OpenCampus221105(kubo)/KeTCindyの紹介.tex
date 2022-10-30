@@ -1,0 +1,134 @@
+%\documentclass[dvipdfmx,a4paper,twoside]{jsarticle}
+\documentclass[uplatex,dvipdfmx,a4paper,twoside]{jsarticle}
+\input{弓削紀要様式R1.tex} % 弓削紀要の様式(タイトル、番号)に合わせるためのもの
+% upLaTeXでコンパイルするように変更（昨年までと異なる）。
+
+\usepackage[bookmarks=false,colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{url}
+
+\newcommand{\maintitlej}{{\ketcindy {の紹介}}} % ここで和文タイトルを定義して使い回す．
+
+\begin{document}
+
+%%%% 最初のページのヘッダ・フッタ(ここから) %%%% ヘッダ無し、フッタあり。(フッタ：所属と提出日)
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{-6mm}
+{\fontsize{21pt}{0pt}\selectfont \textbf{\maintitlej}} % 和文表題を\maintitlejで挿入
+
+% {\fontsize{16pt}{0pt}\selectfont --- 平成３０年度の準備(副題16pt) ---} % 和文副題
+ \end{center}
+\vspace*{.3\baselineskip} % centring による行送りを考慮して、10ポイントの１行空きに調整する。
+
+{\setlength{\baselineskip}{19pt}
+\begin{center} {\fontsize{17pt}{0pt}\selectfont\bf 
+--- 点や直線を動かしてみよう ---
+} % 英文タイトル
+
+%{\fontsize{14pt}{0pt}\selectfont --- Sub Title(14point, centering) ---} % 英文サブタイトル
+\end{center} }
+\vspace*{.3\baselineskip}
+
+
+\vspace*{2\baselineskip}
+%%%% ここまででタイトル・著者・Abstract など本文に入る前の準備をすます。%%%%
+
+\begin{multicols}{2}
+\vspace*{-2.5\baselineskip} % 2段組の開始がタイトルなので、右の段に会わせるための調整
+\section{直線をはさむ2点}
+
+\subsection{2点P,Q は対称}
+
+直線をはさむ2点を見てみよう。\par
+\begin{layer}{80}{0}
+\putnotese{7}{7}{\input{fig/対称移動1.tex}}
+\end{layer}\par
+\vspace{15\baselineskip}
+
+下のQRコードからリンクへ飛んでみて。\\
+点Pをつまんで動かすと，点Qも動くよ。\\
+
+%% upLaTeXでは，図の挿入にBBdataが必須
+\includegraphics[bb=18 18 170 170,width=50mm,clip]{対称移動1QR.png}\\
+
+\url{https://kubo-yuge.github.io/class2019/taisyoidou1/taisyoidou1json.html}\\
+
+\columnbreak
+
+\subsection{別の直線でも}
+
+直線をはさむ2点を見てみよう。\par
+\begin{layer}{80}{0}
+\putnotese{7}{7}{\input{fig/対称移動2.tex}}
+\end{layer}\par
+\vspace{15\baselineskip}
+
+下のQRコードからリンクへ飛んでみて。\\
+点Pをつまんで動かすと，点Qも動くよ。\\
+
+%% upLaTeXでは，図の挿入にBBdataが必須
+\includegraphics[bb=18 18 170 170,width=50mm,clip]{対称移動2QR.png}\\
+
+\url{https://kubo-yuge.github.io/class2019/taisyoidou2/taisyoidou2json.html}\\
+
+\columnbreak
+
+\subsection{点の座標を分数で}
+
+直線をはさむ2点の座標に注目!!\par
+\begin{layer}{80}{0}
+\putnotese{3}{7}{\input{fig/対称移動3.tex}}
+\end{layer}\par
+\vspace{15\baselineskip}
+
+下のQRコードからリンクへ飛んでみて。\\
+点Pをつまんで動かすと，点Qも動くよ。\\
+
+%% upLaTeXでは，図の挿入にBBdataが必須
+\includegraphics[bb=18 18 185 185,width=50mm,clip]{対称移動3QR.png}\\
+
+\url{https://kubo-yuge.github.io/class2019/taisyoidou2frac3/taisyoidou2_frac3json.html}\\
+
+\columnbreak
+
+\subsection{直線の傾きを変えてみよう}
+
+白い枠の中の$m=$のあとに，整数や分数を入れると，直線の傾きが変わるよ。負の数でもいけるよ。\par
+$1,\ -1,\ 2/3,\ -3/2$などでお願いします。\par
+\begin{layer}{80}{0}
+\putnotese{3}{7}{\input{fig/対称移動4.tex}}
+\end{layer}\par
+\vspace{15\baselineskip}
+
+下のQRコードからリンクへ飛んでみて。\\
+点Pをつまんで動かすと，点Qも動くよ。\\
+
+%% upLaTeXでは，図の挿入にBBdataが必須
+\includegraphics[bb=18 18 170 170,width=50mm,clip]{対称移動4QR.png}\\
+
+\url{https://kubo-yuge.github.io/class2019/reflection/reflectionjson.html}\\
+
+\columnbreak
+
+\section{どきどきハート}
+
+スライダの点を動かすと，ハートがドキドキします。\par
+\begin{layer}{80}{0}
+\putnotese{3}{7}{\input{fig/Heart.tex}}
+\end{layer}\par
+\vspace{11\baselineskip}
+
+下のQRコードからリンクへ飛んでみて。\\
+
+%% upLaTeXでは，図の挿入にBBdataが必須
+\includegraphics[bb=18 18 150 150,width=50mm,clip]{HeartQR.png}\\
+
+\url{https://kubo-yuge.github.io/Heartjson.html}\\
+
+
+\newpage
+
+\end{multicols}
+
+\end{document}
