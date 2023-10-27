@@ -1,0 +1,25 @@
+【KETlibスロットに，次の関数を追加する】
+
+Drwgrid():=(
+//グリッドを作表で作る(開始)
+// 作表のオプション
+TSW="[round(SW.x),round(SW.y)]";// 座標軸とずれないようにする。
+thick=[0,"dr,.8","Move="+TSW,"Color=black"];
+//thin=[0,"dr,0.3","Move="+TSW];
+ww=round(NE.x-SW.x);
+hh=round(NE.y-SW.y);
+xL0=apply(1..ww,10);
+yL0=apply(1..hh,10);
+tb1=Tabledata(xL0,yL0,[],thick);
+//グリッドを作表で作る(終了)
+//座標軸を描く(開始)
+Arrowdata("1",[[ceil(SW.x-.2),0],[NE.x+.5,0]],[1.5,"dr,3"]); // 横軸
+Arrowdata("2",[[0,ceil(SW.y-.2)],[0,NE.y+.5]],[1.5,"dr,3"]); // 縦軸
+Expr([NE.x+.6,0],"e","x",["Size=2"]);
+Expr([0,NE.y+.6],"n","y",["Size=2"]); //軸名
+//Letter([0,0],"sw","O"); // 原点
+//座標軸を描く(終了)
+);
+
+
+【figuresスロットで，関数 Drwgridを使う】
