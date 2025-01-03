@@ -1,0 +1,97 @@
+スクリプトの比較
+
+
+【arctan2+.cdy】(22行)
+Ketinit();
+Putpoint("O",[0,0]);
+Putpoint("A",[2,2],A.xy);
+Listplot([O,A],["Color=red"]);
+
+if(A.y>=0,
+ Circledata([O,A],["Rng=[0,arctan2(A)]","Color=red"]);
+ ,
+ Circledata([O,A],["Rng=[0,pi+arctan2(-A)]","Color=red"]);
+);
+
+if(A.y>=0,
+ th=2*arctan2(A);
+ Polarplot("1","(|A|+1+(t-th)/40)","t=[0,th]");
+ ,
+ th=2*(pi+arctan2(-A));
+ Polarplot("1","(|A|+1+(t-th)/40)","t=[0,th]",["Num=200"]);
+);
+Putpoint("B",Ptend("polar1"));
+Pointdata("B",B,["Size=6"]);
+Listplot([O,B]);
+Windispg();
+
+
+【arctan+.cdy】(64行)
+Ketinit();
+Putpoint("O",[0,0]);
+Putpoint("A",[2,2],A.xy);
+Pointdata("A",A,["Size=6","Color=red"]);
+Listplot([O,A],["Color=red"]);
+
+if((A.y>=0)&(A.x>0),
+ Circledata([O,A],["Rng=[0,arctan(A.y/A.x)]","Color=red"]);
+);
+if((A.y>=0)&(A.x==0),
+ Circledata([O,A],["Rng=[0,pi/2]","Color=red"]);
+);
+if((A.y>=0)&(A.x<0),
+ Circledata("1",[O,A],["Rng=[0,pi/2]","Color=red"]);
+ Circledata("2",[O,A],["Rng=[pi/2,pi+arctan(A.y/A.x)]","Color=red"]);
+);
+if((A.y<0)&(A.x==0),
+ Circledata("1",[O,A],["Rng=[0,3*pi/2]","Color=red"]);
+);
+if((A.y<0)&(A.x<0),
+ Circledata("1",[O,A],["Rng=[0,pi]","Color=red"]);
+ Circledata("2",[O,A],["Rng=[pi,pi+arctan(A.y/A.x)]","Color=red"]);
+);
+if((A.y<0)&(A.x>0),
+ Circledata("1",[O,A],["Rng=[0,pi]","Color=red"]);
+ Circledata("2",[O,A],["Rng=[pi,2*pi+arctan(A.y/A.x)]","Color=red"]);
+);
+
+R=sqrt(A.x^2+A.y^2)+1;//半径
+
+if((A.y>=0)&(A.x>0),//第1象限
+ Defvar(["th",2*arctan(A.y/A.x)]);//角度
+ Polarplot("2",text(R)+"+(t-th)/40","t=[0,th]",[]);
+);
+
+if((A.y>=0)&(A.x==0),
+ Polarplot("2",text(R)+"+(t-pi)/40","t=[0,pi]",[]);
+);
+
+if((A.y>=0)&(A.x<0),//第2象限
+ Defvar(["th",2*pi+2*arctan(A.y/A.x)]);//角度
+ Polarplot("1",text(R)+"+(t-th)/40","t=[0,pi]",[]);
+ Polarplot("2",text(R)+"+(t-th)/40","t=[pi,th]",[]);
+);
+
+if((A.y<0)&(A.x<0),//第３象限
+ Defvar(["th",2*pi+2*arctan(A.y/A.x)]);//角度
+ Polarplot("1",text(R)+"+(t-th)/40","t=[0,pi]",[]);
+ Polarplot("2",text(R)+"+(t-th)/40","t=[pi,th]",[]);
+);
+
+if((A.y<0)&(A.x==0),
+ Polarplot("2",text(R)+"+(t-3*pi)/40","t=[0,3*pi]",["Num=150"]);
+);
+
+if((A.y<0)&(A.x>0),//第4象限
+ Defvar(["th",4*pi+2*arctan(A.y/A.x)]);//角度
+ Polarplot("1",text(R)+"+(t-th)/40","t=[0,3*pi]",["Num=150"]);
+ Polarplot("2",text(R)+"+(t-th)/40","t=[3*pi,th]",[]);
+);
+
+Putpoint("B",Ptend("polar2"));
+Pointdata("B",B,["Size=6"]);
+Listplot([O,B]);
+
+Windispg();
+
+(2025/1/3)
