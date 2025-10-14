@@ -1,0 +1,61 @@
+【数直線をつかって不等式の解を図示】
+（例の説明）
+「-1/2＜x＜1」と「x≦-3/2，x≧1/2」を図示した。
+
+（方針）
+・数直線の右端は矢尻あり
+・端の値を含む場合は，黒丸から垂直に上の線分とつなぐ
+・端の値を含まない場合は，白丸から斜めに上の線分とつなぐ
+
+（スクリプト）
+Ketinit();
+Setfiles("inequality");
+Setparent("inequality");
+//  Dircdy : path of this file
+//  Cdyname : name of this file
+Addpackage("emath");// emathコマンド\bunsuu を使用した;
+//Setax(["a"]);
+Addax(0);// x軸のみ描くので標準の座標軸を非表示;
+Setwindow([-3,2],[-1,1.5]);
+setunitlen("20mm");
+Arrowdata("10",[[XMIN,0],[XMAX,0]]);
+Expr([[XMAX,0],"e2","x"]);
+
+Ch=[1,2];//2つの場合を用意して必要なものを選んで描画;
+
+Putpoint("A",[-0.5,0]);
+Putpoint("B",[1,0]);
+Putpoint("C",[-1,0],[C.x,0]);
+Putpoint("D",[ 1,0],[D.x,0]);
+
+
+If(contains(Ch,1),//「-1/2＜x＜1」を描画;
+setfiles("inequality1");
+PtA="Inside=white";PtB="Inside=white";
+Listplot("1",[A,[A.x+.1,.4],[B.x-.1,.4],B]);
+valueA="-\bunsuu{1}{2}";
+valueB="1";
+Expr([A,"nw",valueA,B,"n2e",valueB]);
+Pointdata("1",A,["Size=3",text(PtA)]); 
+Pointdata("2",B,["Size=3",text(PtB)]); 
+);
+
+
+If(contains(Ch,2),//「x≦-3/2，x≧1/2」を描画;
+setfiles("inequality2");
+C.x=-1.5;D.x=1/2;
+PtC="Inside=black";PtD="Inside=black";
+Listplot("2",[C,[C.x,.5],[XMIN,.5]]);
+Listplot("3",[D,[D.x,.5],[XMAX,.5]]);
+valueC="-\bunsuu{3}{2}";
+valueD="\bunsuu{1}{2}";
+Expr([C,"s4",valueC,D,"s4",valueD]);
+Pointdata("3",C,["Size=3",text(PtC)]); 
+Pointdata("4",D,["Size=3",text(PtD)]); 
+);
+
+
+Figpdf();
+Windispg();
+
+//Help("List");
