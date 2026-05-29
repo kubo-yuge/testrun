@@ -4404,31 +4404,34 @@ var cdy = CindyJS({
 <script type="text/javascript">
 // ページ読み込み完了後に実行
   window.addEventListener('load', function() {
+    console.log("【テスト】半角英数強制スクリプトが起動しました。");
     
-    // 画面内の変化を監視するプログラム
-    var observer = new MutationObserver(function() {
-      // CindyJSが作った「type="text"」の入力窓を探す
-      var inputs = document.querySelectorAll('input[type="text"]');
+    // 0.3秒（300ミリ秒）ごとに、画面上のすべてのテキスト入力窓をチェック
+    setInterval(function() {
+      // 画面内にある、通常のテキスト入力窓（type="text"）をすべて探す
+      var textInputs = document.querySelectorAll('input[type="text"]');
       
-      // 見つかった場合（初回読み込み時や、CindyJSが再描画した時）
-      if (inputs.length > 0) {
-        // 1つ目の入力窓を取得
-        var firstInput = inputs[0];
-        
-        // 【重要】属性そのものを 'email' に強制変更
-        // これにより、スマホOSの「直前の日本語キーボード記憶」を強制リセットします
-        firstInput.setAttribute('type', 'email'); 
-        
-        // スマホのおせっかい機能（自動大文字化など）をオフにする
-        firstInput.setAttribute('autocapitalize', 'none');
-        firstInput.setAttribute('autocorrect', 'off');
-        firstInput.setAttribute('autocomplete', 'off');
-        firstInput.setAttribute('spellcheck', 'false');
+      // 見つかった場合は、すべて例外なくemailモードに書き換える
+      if (textInputs.length > 0) {
+        textInputs.forEach(function(input, index) {
+          
+          // 1. type属性そのものを強制的に email に変更
+          input.setAttribute('type', 'email');
+          
+          // 2. スマホのキーボード入力を半角英数にするため inputmode も email に設定
+          input.setAttribute('inputmode', 'email');
+          
+          // 3. 予測変換や自動大文字化などの余計な機能をオフ
+          input.setAttribute('autocapitalize', 'none');
+          input.setAttribute('autocorrect', 'off');
+          input.setAttribute('autocomplete', 'off');
+          input.setAttribute('spellcheck', 'false');
+          
+          // 動作確認用に、ブラウザのログに記録を残す
+          console.log((index + 1) + "個目の入力窓を強制emailモードに書き換えました。");
+        });
       }
-    });
-
-    // 画面全体のHTMLの変化をずっと監視し続ける
-    observer.observe(document.body, { childList: true, subtree: true });
+    }, 300); // 300ミリ秒ごとに見張る
     
   });
 </script>
