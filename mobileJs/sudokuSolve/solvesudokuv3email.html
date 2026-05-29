@@ -4405,37 +4405,29 @@ var cdy = CindyJS({
 // ページ読み込み完了後に実行
   window.addEventListener('load', function() {
     
-    // 画面内に変化があった時に実行される「監視カメラ」のような機能
+    // 画面内の変化を監視するプログラム
     var observer = new MutationObserver(function() {
-      
-      // 画面内のすべての input タグを取得
+      // CindyJSが作った「type="text"」の入力窓を探す
       var inputs = document.querySelectorAll('input[type="text"]');
       
+      // 見つかった場合（初回読み込み時や、CindyJSが再描画した時）
       if (inputs.length > 0) {
-        // --- 1つ目の入力窓（半角英数優先にする） ---
+        // 1つ目の入力窓を取得
         var firstInput = inputs[0];
         
-        // すでに設定済みの場合はスキップする（処理が無限に繰り返されるのを防ぐため）
-        if (firstInput.getAttribute('data-mode') !== 'set') {
-          
-          // urlよりも強力に半角英数キーボードを出しやすい 'email' を採用
-          firstInput.setAttribute('inputmode', 'email'); 
-          
-          firstInput.setAttribute('autocapitalize', 'none');
-          firstInput.setAttribute('autocorrect', 'off');
-          firstInput.setAttribute('autocomplete', 'off');
-          firstInput.setAttribute('spellcheck', 'false');
-          
-          // 設定が完了したという「目印」をつける
-          firstInput.setAttribute('data-mode', 'set');
-        }
-
-        // --- 2つ目の入力窓が存在する場合（通常通りにする） ---
-        // もし2つ目以降の入力窓には何もしない場合、ここに処理は不要です。
+        // 【重要】属性そのものを 'email' に強制変更
+        // これにより、スマホOSの「直前の日本語キーボード記憶」を強制リセットします
+        firstInput.setAttribute('type', 'email'); 
+        
+        // スマホのおせっかい機能（自動大文字化など）をオフにする
+        firstInput.setAttribute('autocapitalize', 'none');
+        firstInput.setAttribute('autocorrect', 'off');
+        firstInput.setAttribute('autocomplete', 'off');
+        firstInput.setAttribute('spellcheck', 'false');
       }
     });
 
-    // bodyタグの中身（画面全体）の変化をずっと監視し続けるよう指示
+    // 画面全体のHTMLの変化をずっと監視し続ける
     observer.observe(document.body, { childList: true, subtree: true });
     
   });
