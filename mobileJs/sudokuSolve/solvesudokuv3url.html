@@ -4404,28 +4404,19 @@ var cdy = CindyJS({
 <script type="text/javascript">
 // ページ読み込み完了後に実行
   window.addEventListener('load', function() {
-    // CindyJSが入力窓を生成するのを少し待つ（1秒 = 1000ミリ秒）
     setTimeout(function() {
-      // 画面内のすべての input タグを取得
       var inputs = document.querySelectorAll('input[type="text"]');
       
       inputs.forEach(function(input) {
-        // 1. スマホのキーボードを「半角英数」ベースにするための設定
-        // （※スマホでは url や email を指定すると強制的に英語キーボードが出やすくなります）
+        // スマホのキーボードを「半角英数（URL入力用）」で開くように指示
+        // ※「url」を指定することで、記号も打てる英語キーボードが優先して表示されます
         input.setAttribute('inputmode', 'url'); 
         
-        // 2. パスワード入力窓のように、予測変換や自動大文字化を無効にする
+        // 予測変換や自動大文字化など、余計な機能をオフにする
         input.setAttribute('autocapitalize', 'none');
         input.setAttribute('autocorrect', 'off');
         input.setAttribute('autocomplete', 'off');
         input.setAttribute('spellcheck', 'false');
-
-        // 3. 入力された文字を監視し、半角英数・記号以外を即座に削除する処理
-        input.addEventListener('input', function() {
-          // \x20-\x7E は、半角スペースから ~（チルダ）までのすべての半角英数字・記号を指します
-          // それ以外の文字（全角文字、ひらがな、漢字など）が入力されたら空文字に置き換えて消す
-          this.value = this.value.replace(/[^\x20-\x7E]/g, '');
-        });
       });
     }, 1000);
   });
