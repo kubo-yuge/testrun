@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     
-    <title>solvesudokuv3.email</title>
+    <title>solvesudokuv3.3</title>
     <style type="text/css">
         * {
             margin: 0px;
@@ -4404,35 +4404,67 @@ var cdy = CindyJS({
 <script type="text/javascript">
 // ページ読み込み完了後に実行
   window.addEventListener('load', function() {
-    console.log("【テスト】半角英数強制スクリプトが起動しました。");
+    console.log("【kettask用】数式入力・キーボード制御スクリプト始動");
     
-    // 0.3秒（300ミリ秒）ごとに、画面上のすべてのテキスト入力窓をチェック
-    setInterval(function() {
-      // 画面内にある、通常のテキスト入力窓（type="text"）をすべて探す
-      var textInputs = document.querySelectorAll('input[type="text"]');
-      
-      // 見つかった場合は、すべて例外なくemailモードに書き換える
-      if (textInputs.length > 0) {
-        textInputs.forEach(function(input, index) {
-          
-          // 1. type属性そのものを強制的に email に変更
-          input.setAttribute('type', 'email');
-          
-          // 2. スマホのキーボード入力を半角英数にするため inputmode も email に設定
-          input.setAttribute('inputmode', 'email');
-          
-          // 3. 予測変換や自動大文字化などの余計な機能をオフ
-          input.setAttribute('autocapitalize', 'none');
-          input.setAttribute('autocorrect', 'off');
-          input.setAttribute('autocomplete', 'off');
-          input.setAttribute('spellcheck', 'false');
-          
-          // 動作確認用に、ブラウザのログに記録を残す
-          console.log((index + 1) + "個目の入力窓を強制emailモードに書き換えました。");
-        });
+    // 対策①：ユーザーが入力窓をタップした「まさにその瞬間」に割り込んで強制変更
+    document.addEventListener('focusin', function(e) {
+      if (e.target && e.target.tagName === 'INPUT') {
+        applyKeyboardSettings();
       }
-    }, 300); // 300ミリ秒ごとに見張る
-    
+    }, true); // true で最優先実行（CindyJS等の割り込みを防ぐ）
+
+    // 対策②：念のため、定期監視（0.2秒ごと）で状態をキープ
+    setInterval(applyKeyboardSettings, 200);
+
+    // キーボード設定を適用するコア関数
+    function applyKeyboardSettings() {
+      // 画面内のすべてのテキスト入力窓（type="text" や強制変更後の "url"）を取得
+      var allInputs = document.querySelectorAll('input[type="text"], input[type="url"]');
+      
+      // 隠し入力窓を除外し、見えているものだけをピックアップ
+      var visibleInputs = [];
+      allInputs.forEach(function(inp) {
+        if (inp.offsetWidth > 0 && inp.style.opacity !== '0' && inp.style.display !== 'none') {
+          visibleInputs.push(inp);
+        }
+      });
+
+      if (visibleInputs.length > 0) {
+        // ==========================================
+        // 【窓1】数式入力用：半角英数フルキーボードを強制
+        // ==========================================
+        var mathInput = visibleInputs[0];
+        if (mathInput.getAttribute('type') !== 'url') {
+          // 最も日本語排除力が強い「url」モードに属性ごと変更
+          mathInput.setAttribute('type', 'url');
+          mathInput.setAttribute('inputmode', 'url');
+          
+          // 半角英数字・記号のみを許可するパターンを指定（スマホへの強いヒント）
+          mathInput.setAttribute('pattern', '[A-Za-z0-9!-~]*'); 
+          
+          // おせっかいな予測変換や自動大文字化を徹底的に破壊
+          mathInput.setAttribute('autocapitalize', 'none');
+          mathInput.setAttribute('autocorrect', 'off');
+          mathInput.setAttribute('autocomplete', 'off');
+          mathInput.setAttribute('spellcheck', 'false');
+        }
+
+        // ==========================================
+        // 【窓2】通常用：日本語入力などを許可（通常通り）
+        // ==========================================
+        if (visibleInputs.length >= 2) {
+          var normalInput = visibleInputs[1];
+          // もしシステム側で巻き込まれて 'url' になっていたら 'text' に戻す
+          if (normalInput.getAttribute('type') !== 'text') {
+            normalInput.setAttribute('type', 'text');
+            normalInput.removeAttribute('inputmode');
+            normalInput.removeAttribute('pattern');
+            normalInput.removeAttribute('autocapitalize');
+            normalInput.removeAttribute('autocorrect');
+          }
+        }
+      }
+    }
   });
 </script>
 </body>
